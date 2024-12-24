@@ -59,11 +59,7 @@ const TodoFooter = () => {
         <div>
   <h3 className="font-bold mb-2">Filter by Status</h3>
   <div className="space-y-1">
-    <label
-      className={`block ${
-        currentStatus === 'All' ? 'line-through text-gray-500' : ''
-      }`}
-    >
+    <label className="block">
       <input
         type="radio"
         name="status"
@@ -71,13 +67,15 @@ const TodoFooter = () => {
         onChange={() => handleStatusChange('All')}
         className="mr-2"
       />
-      All
+      <span
+        className={`${
+          currentStatus === 'All' ? 'font-bold underline' : ''
+        }`}
+      >
+        All
+      </span>
     </label>
-    <label
-      className={`block ${
-        currentStatus === 'Active' ? 'line-through text-gray-500' : ''
-      }`}
-    >
+    <label className="block">
       <input
         type="radio"
         name="status"
@@ -85,13 +83,15 @@ const TodoFooter = () => {
         onChange={() => handleStatusChange('Active')}
         className="mr-2"
       />
-      Active
+      <span
+        className={`${
+          currentStatus === 'Active' ? 'font-bold underline' : ''
+        }`}
+      >
+        Active
+      </span>
     </label>
-    <label
-      className={`block ${
-        currentStatus === 'Completed' ? 'line-through text-gray-500' : ''
-      }`}
-    >
+    <label className="block">
       <input
         type="radio"
         name="status"
@@ -99,7 +99,13 @@ const TodoFooter = () => {
         onChange={() => handleStatusChange('Completed')}
         className="mr-2"
       />
-      Completed
+      <span
+        className={`${
+          currentStatus === 'Completed' ? 'font-bold underline' : ''
+        }`}
+      >
+        Completed
+      </span>
     </label>
   </div>
 </div>
