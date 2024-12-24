@@ -1,36 +1,31 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {  clearCompleted, markAllCompleted } from '../slices/todoSlice';
+import { clearCompleted, markAllCompleted } from '../slices/todoSlice';
 import { setStatusFilter, setColorFilter } from '../slices/filterSlice';
-import {colors} from './Colors'
+import { colors } from './Colors';
 
 const TodoFooter = () => {
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.add.todoList);
+  const todos = useSelector((state) => state.add?.todoList || []); // Default to empty array
   const remainingTodos = todos.filter((todo) => !todo.completed).length;
-  const currentStatus = useSelector((state) => state.filters.status);
-  const selectedColors = useSelector((state) => state.filters.colors);
+  const currentStatus = useSelector((state) => state.filters?.status || 'All'); // Default to 'All'
+  const selectedColors = useSelector((state) => state.filters?.colors || []); // Default to empty array
 
-  // Handle Mark All Completed
   const handleMarkAllCompleted = () => {
     dispatch(markAllCompleted());
   };
 
-  // Handle Clear Completed
   const handleClearCompleted = () => {
     dispatch(clearCompleted());
   };
-  
-  //handle status filter change
-  const handleStatusChange=(status)=>{
-    dispatch(setStatusFilter(status))
-  }
 
-  //handle color filter 
+  const handleStatusChange = (status) => {
+    dispatch(setStatusFilter(status));
+  };
+
   const handleColorChange = (color) => {
     dispatch(setColorFilter(color));
   };
-
 
   return (
     <div className="bg-white border-t shadow-md py-4 px-8 w-full">
@@ -62,40 +57,53 @@ const TodoFooter = () => {
 
         {/* Filter by Status */}
         <div>
-          <h3 className="font-bold mb-2">Filter by Status</h3>
-          <div className="space-y-1">
-            <label className="block">
-              <input
-                type="radio"
-                name="status"
-                checked={currentStatus === 'All'}
-                onChange={() => handleStatusChange('All')}
-                className="mr-2"
-              />
-              All
-            </label>
-            <label className="block">
-              <input
-                type="radio"
-                name="status"
-                checked={currentStatus === 'Active'}
-                onChange={() => handleStatusChange('Active')}
-                className="mr-2"
-              />
-              Active
-            </label>
-            <label className="block">
-              <input
-                type="radio"
-                name="status"
-                checked={currentStatus === 'Completed'}
-                onChange={() => handleStatusChange('Completed')}
-                className="mr-2"
-              />
-              Completed
-            </label>
-          </div>
-        </div>
+  <h3 className="font-bold mb-2">Filter by Status</h3>
+  <div className="space-y-1">
+    <label
+      className={`block ${
+        currentStatus === 'All' ? 'line-through text-gray-500' : ''
+      }`}
+    >
+      <input
+        type="radio"
+        name="status"
+        checked={currentStatus === 'All'}
+        onChange={() => handleStatusChange('All')}
+        className="mr-2"
+      />
+      All
+    </label>
+    <label
+      className={`block ${
+        currentStatus === 'Active' ? 'line-through text-gray-500' : ''
+      }`}
+    >
+      <input
+        type="radio"
+        name="status"
+        checked={currentStatus === 'Active'}
+        onChange={() => handleStatusChange('Active')}
+        className="mr-2"
+      />
+      Active
+    </label>
+    <label
+      className={`block ${
+        currentStatus === 'Completed' ? 'line-through text-gray-500' : ''
+      }`}
+    >
+      <input
+        type="radio"
+        name="status"
+        checked={currentStatus === 'Completed'}
+        onChange={() => handleStatusChange('Completed')}
+        className="mr-2"
+      />
+      Completed
+    </label>
+  </div>
+</div>
+
 
         {/* Filter by Color */}
         <div>
@@ -105,7 +113,7 @@ const TodoFooter = () => {
               <label key={color} className="block">
                 <input
                   type="checkbox"
-                  checked={selectedColors.includes(color)}
+                  checked={Array.isArray(selectedColors) && selectedColors.includes(color)}
                   onChange={() => handleColorChange(color)}
                   className="mr-2"
                 />

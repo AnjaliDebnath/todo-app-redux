@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState={
     status: 'All',
+    color:[]
+    
 };
 
 const filterSlice=createSlice({
